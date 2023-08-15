@@ -28,7 +28,13 @@ var ip
 //       }
 //      }
 // };
-ip=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(window.location.href)[1]
+try{
+    ip=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(window.location.href)[1]
+
+}catch(err){
+    console.log(err)
+    ip='localhost'
+}
 export default ip
 // try{
 // }catch(err){
