@@ -3,28 +3,28 @@
         <vue_time></vue_time>
         <div class="container">
 
-            <div class="form-box" v-hide=" this.$store.state.panel_current === 'new_psw' " ref="formbox">
+            <div class="form-box" v-hide=" panel_current === 'new_psw' " ref="formbox">
                 <transition name="trans">
-                    <vue_register :key="1" :ip="app_ip" v-show="this.$store.state.form_box_current === 'register' && this.$store.state.panel_current === 'login_register'">
+                    <vue_register :key="1" :ip="app_ip" v-show="form_box_current === 'register' && panel_current === 'login_register'">
                     </vue_register>
                 </transition>
                 <transition name="trans">
-                    <vue_login :key="2" :ip="app_ip" v-show="this.$store.state.form_box_current === 'login'&&this.$store.state.panel_current === 'login_register'">
+                    <vue_login :key="2" :ip="app_ip" v-show="form_box_current === 'login'&&panel_current === 'login_register'">
                     </vue_login>
                 </transition>
             </div>
             <div class="row con_row">
-                <vue_conbox v-hide="this.$store.state.form_box_current === 'login' || this.$store.state.panel_current === 'new_psw'" :movement="tologin_">
+                <vue_conbox v-hide="form_box_current === 'login' || panel_current === 'new_psw'" :movement="tologin_">
                     <span slot="p_notice"> 已有账号？ </span>
                     <span slot="b_notice"> 去登陆 </span>
                 </vue_conbox>
-                <vue_conbox v-hide="this.$store.state.form_box_current === 'register' || this.$store.state.panel_current === 'new_psw'" :movement="toregister_">
+                <vue_conbox v-hide="form_box_current === 'register' || panel_current === 'new_psw'" :movement="toregister_">
                     <span slot="p_notice"> 没有账号？ </span>
                     <span slot="b_notice"> 去注册 </span>
                 </vue_conbox>
             </div>
-            <transition name="tg" v-show="this.$store.state.panel_current==='new_psw'">
-                <vue_new_psw_div v-show="this.$store.state.panel_current==='new_psw'">
+            <transition name="tg" v-show="panel_current==='new_psw'">
+                <vue_new_psw_div v-show="panel_current==='new_psw'">
                 </vue_new_psw_div>
             </transition>
         </div>
@@ -40,7 +40,7 @@ import vue_time from './components/vue_time'
 import vue_register from './components/vue_register'
 import vue_login from './components/vue_login'
 import vue_conbox from './components/vue_conbox'
-
+import {mapState,mapGetters} from 'vuex'
 export default {
     name: 'App1',
     data() {
@@ -49,6 +49,10 @@ export default {
             // panel_current: 'login_register',
             app_ip
         }
+    },
+    computed: {
+        ...mapState(['form_box_current','panel_current']),
+        ...mapGetters(['my_panel_current'])
     },
     methods:{
         tologin_(){
@@ -72,6 +76,7 @@ export default {
         //     this.panel_current = this.panel_current === 'login_register' ? 'new_psw' : 'login_register';
         //     event.target.innerText = this.panel_current === 'login_register' ? "忘记密码" : "返回登陆"
         // })
+        console.log(this.my_panel_current)
     },
     directives: {
         hide(elem,binding){
@@ -110,6 +115,8 @@ body {
     height: 100%;
     width: 100%;
     background-image: url(./assets/images/scifi_bg.jpg);
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;

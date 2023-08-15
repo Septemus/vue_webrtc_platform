@@ -6,6 +6,7 @@ import Vue from 'vue'
 import store from './store'
 
 import App from './App.vue'
+Vue.config.devtools = true;
 
 Vue.config.productionTip = false
 

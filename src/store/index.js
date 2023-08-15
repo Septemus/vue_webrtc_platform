@@ -29,9 +29,16 @@ const state = {
 
 }
 
+const getters= {
+    my_panel_current(state){
+        return state.panel_current+':my'
+    }
+}
+
 //创建并暴露store
 export default new Vuex.Store({
     actions,
     mutations,
-    state
+    state,
+    getters
 })
