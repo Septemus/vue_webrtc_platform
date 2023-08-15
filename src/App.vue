@@ -2,43 +2,88 @@
     <div class="app">
         <vue_time></vue_time>
         <div class="container">
-            <div class="form-box" v-bind:class="{ 'hidden': panel_current === 'new_psw' }">
-                <vue_register :ip="app_ip"></vue_register>
-                <!-- 登录 -->
-                <vue_login :ip="app_ip"></vue_login>
+
+            <div class="form-box" v-hide=" this.$store.state.panel_current === 'new_psw' " ref="formbox">
+                <transition name="trans">
+                    <vue_register :key="1" :ip="app_ip" v-show="this.$store.state.form_box_current === 'register' && this.$store.state.panel_current === 'login_register'">
+                    </vue_register>
+                </transition>
+                <transition name="trans">
+                    <vue_login :key="2" :ip="app_ip" v-show="this.$store.state.form_box_current === 'login'&&this.$store.state.panel_current === 'login_register'">
+                    </vue_login>
+                </transition>
             </div>
             <div class="row con_row">
-                <vue_tologin></vue_tologin>
-                <vue_toregister></vue_toregister>
+                <vue_conbox v-hide="this.$store.state.form_box_current === 'login' || this.$store.state.panel_current === 'new_psw'" :movement="tologin_">
+                    <span slot="p_notice"> 已有账号？ </span>
+                    <span slot="b_notice"> 去登陆 </span>
+                </vue_conbox>
+                <vue_conbox v-hide="this.$store.state.form_box_current === 'register' || this.$store.state.panel_current === 'new_psw'" :movement="toregister_">
+                    <span slot="p_notice"> 没有账号？ </span>
+                    <span slot="b_notice"> 去注册 </span>
+                </vue_conbox>
             </div>
-            <vue_new_psw_div></vue_new_psw_div>
+            <transition name="tg" v-show="this.$store.state.panel_current==='new_psw'">
+                <vue_new_psw_div v-show="this.$store.state.panel_current==='new_psw'">
+                </vue_new_psw_div>
+            </transition>
         </div>
         <vue_forget_psw></vue_forget_psw>
     </div>
 </template>
 
 <script>
-// import './assets/js/bootstrap.min.js'
 import app_ip from './assets/js/ipfetch.js'
 import vue_forget_psw from './components/vue_forget_psw'
 import vue_new_psw_div from './components/vue_new_psw_div'
 import vue_time from './components/vue_time'
 import vue_register from './components/vue_register'
 import vue_login from './components/vue_login'
-import vue_tologin from './components/vue_tologin'
-import vue_toregister from './components/vue_toregister'
+import vue_conbox from './components/vue_conbox'
 
 export default {
     name: 'App1',
     data() {
         return {
-            form_box_current: 'login',
-            panel_current: 'login_register',
+            // form_box_current: 'login',
+            // panel_current: 'login_register',
             app_ip
         }
     },
+    methods:{
+        tologin_(){
+            //this.form_box_current = 'login'
+            // let form_box = document.getElementsByClassName('form-box')[0];
+            this.$store.commit('form_box_switch','login')
+            this.$refs.formbox.style.transform = window.innerWidth > 568 ? 'translateX(0%)' : "translateY(0%)";
+        },
+        toregister_(){
+            // this.form_box_current = 'register'
+            // let form_box = document.getElementsByClassName('form-box')[0];
+            this.$store.commit('form_box_switch','register')
+            this.$refs.formbox.style.transform = window.innerWidth > 568 ? 'translateX(100%)' : "translateY(100%)";
+        }
+    },
     components: {
-        vue_forget_psw, vue_new_psw_div, vue_time, vue_register, vue_login, vue_tologin, vue_toregister
+        vue_forget_psw, vue_new_psw_div, vue_time, vue_register, vue_login, vue_conbox
+    },
+    mounted() {
+        // this.$bus.$on('button_reverse',(event)=>{
+        //     this.panel_current = this.panel_current === 'login_register' ? 'new_psw' : 'login_register';
+        //     event.target.innerText = this.panel_current === 'login_register' ? "忘记密码" : "返回登陆"
+        // })
+    },
+    directives: {
+        hide(elem,binding){
+            if(binding.value){
+                elem.style.visibility='hidden'
+                elem.style.opacity=0
+            }
+            else {
+                elem.style.visibility='visible'
+                elem.style.opacity=1
+            }
+        }
     }
 }
 </script>
@@ -150,19 +195,29 @@ button {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    position: absolute;
 }
 
-.hidden {
-    opacity: 0 !important;
-    display: none !important;
-    /* transition: 0.5s; */
+.trans-enter-active {
+    animation: showup .5s ease;
 }
 
-.hidden1 {
-    visibility: hidden;
-    opacity: 0 !important;
-    /* transition: 0.5s; */
+.trans-leave-active {
+    animation: showup .5s ease reverse;
 }
+
+@keyframes showup {
+    from {
+        opacity: 0;
+        // position: absolute;
+    }
+    to {
+        opacity: 1;
+        // position: relative;
+    }
+}
+
+
 
 h1 {
     text-align: center;
@@ -227,14 +282,12 @@ input:focus::placeholder {
     @media screen and (max-width:576px) {
         height: 50% !important;
     }
-
     .welcome {
         display: flex;
         flex-direction: column;
         /* justify-content: center; */
         align-items: center;
     }
-
     h2 {
         margin-top: 20px;
         color: rgba(250, 250, 250, 0.5);
@@ -281,5 +334,20 @@ input:focus::placeholder {
         cursor: pointer;
     }
 
+}
+.tg-enter-active {
+    animation: anime 1s ease;
+}
+.tg-leave-active {
+    animation: anime 1s ease reverse;
+}
+
+@keyframes anime {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 </style>

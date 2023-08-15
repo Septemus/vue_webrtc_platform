@@ -1,6 +1,5 @@
 <template>
-    <div class="register-box"
-        v-bind:class="{'hidden':this.$parent.form_box_current==='login'||this.$parent.panel_current==='new_psw'}">
+    <div class="register-box">
 
         <h1>register</h1>
         <input type="text" placeholder="用户名" id="Rid" v-model="vue_rid">

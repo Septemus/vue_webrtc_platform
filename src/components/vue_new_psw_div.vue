@@ -1,16 +1,19 @@
 <template>
-    <div class="new_psw_div" v-bind:class="{ 'hidden': this.$parent.panel_current === 'login_register' }">
-        <h1>找回密码</h1>
-        <div class="inputgroup1">
-            <input type="text" placeholder="邮箱地址" name="id" id="email">
-            <button class="" type="submit">发送验证邮件</button>
-        </div>
-        <input type="text" placeholder="验证码" name="id" id="verify">
-        <input type="password" placeholder="新密码" name="password" id="epassword1">
-        <input type="password" placeholder="确认新密码" name="password" id="epassword2">
-        <!--<a href="b.html"><input type="button" name="test" value="test" /></a>-->
-        <!--<input type="button" value="登陆" id="login_btn">-->
-        <button id="alter_psw">修改密码</button>
+    <div class="new_psw_div">
+        <!-- <transition-group class="new_psw_div" name="tg" v-show="this.$store.state.panel_current==='new_psw'" appear tag="div"> -->
+            <h1 key="1">找回密码</h1>
+            <div class="inputgroup1" key="2">
+                <input type="text" placeholder="邮箱地址" name="id" id="email">
+                <button class="" type="submit">发送验证邮件</button>
+            </div>
+            <input type="text" placeholder="验证码" name="id" id="verify" key="3">
+            <input type="password" placeholder="新密码" name="password" id="epassword1" key="4">
+            <input type="password" placeholder="确认新密码" name="password" id="epassword2" key="5">
+            <!--<a href="b.html"><input type="button" name="test" value="test" /></a>-->
+            <!--<input type="button" value="登陆" id="login_btn">-->
+            <button id="alter_psw" key="6">修改密码</button>
+        
+        <!-- </transition-group> -->
     </div>
 </template>
 <script>
@@ -38,8 +41,8 @@ export default {
     /* position: absolute; */
     /* top: 50%; */
     /* transform: translateY(-50%); */
-    opacity: 1;
-    transition: visibility 0.5s, opacity 0.5s;
+    // opacity: 1;
+    // transition: visibility 0.5s, opacity 0.5s;
 
     .inputgroup1 {
         width: 70%;
@@ -59,4 +62,5 @@ export default {
     }
 
 }
-</style>
+
+</style>    
