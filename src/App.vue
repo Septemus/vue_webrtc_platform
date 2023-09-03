@@ -40,7 +40,7 @@ import vue_time from './components/vue_time'
 import vue_register from './components/vue_register'
 import vue_login from './components/vue_login'
 import vue_conbox from './components/vue_conbox'
-import {mapState,mapGetters} from 'vuex'
+import {mapState,mapGetters,mapMutations} from 'vuex'
 export default {
     name: 'App1',
     data() {
@@ -55,16 +55,19 @@ export default {
         ...mapGetters(['my_panel_current'])
     },
     methods:{
+        ...mapMutations(['form_box_switch']),
         tologin_(){
             //this.form_box_current = 'login'
             // let form_box = document.getElementsByClassName('form-box')[0];
-            this.$store.commit('form_box_switch','login')
+            // this.$store.commit('form_box_switch','login')
+            this.form_box_switch('login')
             this.$refs.formbox.style.transform = window.innerWidth > 568 ? 'translateX(0%)' : "translateY(0%)";
         },
         toregister_(){
             // this.form_box_current = 'register'
             // let form_box = document.getElementsByClassName('form-box')[0];
-            this.$store.commit('form_box_switch','register')
+            // this.$store.commit('form_box_switch','register')
+            this.form_box_switch('register')
             this.$refs.formbox.style.transform = window.innerWidth > 568 ? 'translateX(100%)' : "translateY(100%)";
         }
     },
